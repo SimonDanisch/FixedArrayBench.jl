@@ -1,5 +1,5 @@
 module FixedArrayBench
-
+# TODO, make everything work automatically and save history!
 
 using BenchmarkTools
 import FixedSizeArrays
@@ -57,6 +57,7 @@ mixed_funs = [+, /, *]
 unary_funs = [-, sum, prod]
 vector_of_vector_funs = [-, sum, prod, mean]
 
+# test out functions (quicker than benchmarking)
 for (name, c) in constructors
 
     for N in (3, 10), T in element_types
@@ -81,8 +82,8 @@ for (name, c) in constructors
         end
     end
 end
-println("Okay gang, lets start benchmarkin'")
 
+println("Okay gang, lets start benchmarkin'")
 for (name, c) in constructors
     suite[name] = BenchmarkGroup()
     for N in (3, 10), T in element_types
