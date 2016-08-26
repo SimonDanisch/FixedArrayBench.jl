@@ -14,15 +14,15 @@ function rand_matrix{X<:VecElement}(A::Type{X}, N, T)
 end
 
 function matrix_bench(suite)
-  constructors = [
-      ("Array", Matrix),
-      ("FSA", FixedSizeArrays.Mat),
-      ("VecTuple", VecElement),
-      ("Tuple", Tuple)
-  ]
-  element_types = (Float32, Float64)
+    constructors = [
+        ("Array", Matrix),
+        ("FSA", FixedSizeArrays.Mat),
+        ("VecTuple", VecElement),
+        ("Tuple", Tuple)
+    ]
+    element_types = (Float32, Float64)
 
-  for (name, c) in constructors
+    for (name, c) in constructors
       suite[name] = BenchmarkGroup()
       for N in (2, 4, 9), T in element_types
           a = rand_matrix(c, N, T)
@@ -30,24 +30,5 @@ function matrix_bench(suite)
           suite[name]["matmul", N, T] = @benchmarkable a * b
           suite[name]["sum", N, T] = @benchmarkable sum(a)
       end
-  end
-end
-
-using FixedSizeArrays, BenchmarkTools
-function rand_matrix{X<:Matrix}(A::Type{X}, N, T)
-    rand(T, N, N)
-end
-function rand_matrix{X<:FixedSizeArrays.Mat}(A::Type{X}, N, T)
-    rand(A{N, N, T})
-end
-constructors = [
-    ("Array", Matrix),
-    ("FSA", FixedSizeArrays.Mat),
-]
-for (name, c) in constructors, N in (2, 4, 10)
-    T = Float32
-      a = rand_matrix(c, N, T)
-      b = rand_matrix(c, N, T)
-      println(c, " ", N)
-      println(@benchmark $a * $b)
+    end
 end

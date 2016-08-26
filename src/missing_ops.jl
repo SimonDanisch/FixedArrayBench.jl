@@ -53,7 +53,9 @@ end
 @inline function (*)(a::Vector, b::Vector)
 	a .* b
 end
-
+@inline function (*)(a::StaticArrays.SVector, b::StaticArrays.SVector)
+	a .* b
+end
 @inline function (*)(a::FixedSizeArrays.FixedVector, b::FixedSizeArrays.FixedVector)
 	a .* b
 end
@@ -74,8 +76,3 @@ end
 	TT =  Base.promote_op(/, T1, T2)
 	SIMD.Vec{N, TT}(a) / TT(b)
 end
-
-
-
-
-
